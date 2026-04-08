@@ -9,20 +9,88 @@
 
     <div class="overlay"></div>
 
-    <div class="container">
+    <div class="container" id="mainMenu">
         <h1 class="title">FNaF 6.1</h1>
 
         <div class="menu">
             <button onclick="window.location.href='lvl.html'">Start Game</button>
             <button>Continue</button>
-            <button>Options</button>
+            <button onclick="openOptions()">Options</button>
+        </div>
+    </div>
+
+    <div class="options-container" id="optionsMenu" style="display: none;">
+        <div class="options-header">
+            <button class="menu-btn" onclick="closeOptions()">Back</button>
+            <h1 class="title">Options</h1>
+        </div>
+
+        <div class="options-content">
+            <h2>Volume</h2>
+            
+            <div class="setting-row">
+                <label>Ambience</label>
+                <div class="slider-wrapper">
+                    <input type="range" min="0" max="100" value="82" id="ambienceSlider" oninput="updateSlider(this, 'ambienceValue')">
+                    <span id="ambienceValue">82%</span>
+                </div>
+            </div>
+            
+            <div class="setting-row">
+                <label>Sounds</label>
+                <div class="slider-wrapper">
+                    <input type="range" min="0" max="100" value="30" id="soundsSlider" oninput="updateSlider(this, 'soundsValue')">
+                    <span id="soundsValue">30%</span>
+                </div>
+            </div>
+
+            <h2>Detail Settings</h2>
+            
+            <div class="checkbox-row">
+                <input type="checkbox" id="lightningMode" checked>
+                <label for="lightningMode">
+                    <span class="custom-checkbox"></span>
+                    Lightning Mode (Brighter Map)
+                </label>
+            </div>
+            
+            <div class="checkbox-row">
+                <input type="checkbox" id="detailFixing">
+                <label for="detailFixing">
+                    <span class="custom-checkbox"></span>
+                    Detail Fixing
+                </label>
+            </div>
+
+            <button class="menu-btn save-btn" onclick="closeOptions()">Save</button>
         </div>
     </div>
 
     <div class="scanlines"></div>
 
-
     <script src="assets/js/lvl_system.js"></script>
     <script src="assets/js/game.js"></script>
+
+    <script>
+        function openOptions() {
+            document.getElementById('mainMenu').style.display = 'none';
+            document.getElementById('optionsMenu').style.display = 'flex';
+            
+            updateSlider(document.getElementById('ambienceSlider'), 'ambienceValue');
+            updateSlider(document.getElementById('soundsSlider'), 'soundsValue');
+        }
+
+        function closeOptions() {
+            document.getElementById('optionsMenu').style.display = 'none';
+            document.getElementById('mainMenu').style.display = 'block';
+        }
+
+        function updateSlider(slider, textId) {
+            document.getElementById(textId).innerText = slider.value + '%';
+            
+            const value = (slider.value - slider.min) / (slider.max - slider.min) * 100;
+            slider.style.background = `linear-gradient(to right, #ff3c3c ${value}%, #222 ${value}%)`;
+        }
+    </script>
 </body>
 </html>

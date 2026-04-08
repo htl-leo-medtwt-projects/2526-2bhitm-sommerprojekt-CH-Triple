@@ -20,7 +20,7 @@ function preload() {
     this.load.image('child_s2', 'assets/sprites/crying_child_s2.png');
     this.load.image('child_s0', 'assets/sprites/crying_child_s0.png');
 }
-
+å
 function create(data) {
     let lvl = data.level || 1;
     this.isTransitioning = false;
@@ -91,7 +91,6 @@ function create(data) {
             repeat: -1
         });
     }
-
     this.player.play('idle');
 
     this.cursors = this.input.keyboard.createCursorKeys();
