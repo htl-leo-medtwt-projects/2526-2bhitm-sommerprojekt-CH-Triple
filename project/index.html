@@ -62,7 +62,7 @@
                 </label>
             </div>
 
-            <button class="menu-btn save-btn" onclick="closeOptions()">Save</button>
+            <button class="menu-btn save-btn" onclick="saveAndCloseOptions()">Save</button>
         </div>
     </div>
 
@@ -72,6 +72,8 @@
     <script src="assets/js/game.js"></script>
 
     <script>
+        document.addEventListener('DOMContentLoaded', loadOptions);
+
         function openOptions() {
             document.getElementById('mainMenu').style.display = 'none';
             document.getElementById('optionsMenu').style.display = 'flex';
@@ -90,6 +92,32 @@
             
             const value = (slider.value - slider.min) / (slider.max - slider.min) * 100;
             slider.style.background = `linear-gradient(to right, #ff3c3c ${value}%, #222 ${value}%)`;
+        }
+
+
+        function saveAndCloseOptions() {
+            localStorage.setItem('fnaf_ambience', document.getElementById('ambienceSlider').value);
+            localStorage.setItem('fnaf_sounds', document.getElementById('soundsSlider').value);
+            localStorage.setItem('fnaf_lightning', document.getElementById('lightningMode').checked);
+            localStorage.setItem('fnaf_detail', document.getElementById('detailFixing').checked);
+            
+            console.log("Settings saved to localStorage!");
+            closeOptions();
+        }
+
+        function loadOptions() {
+            const savedAmbience = localStorage.getItem('fnaf_ambience');
+            const savedSounds = localStorage.getItem('fnaf_sounds');
+            const savedLightning = localStorage.getItem('fnaf_lightning');
+            const savedDetail = localStorage.getItem('fnaf_detail');
+
+            if (savedAmbience !== null) document.getElementById('ambienceSlider').value = savedAmbience;
+            if (savedSounds !== null) document.getElementById('soundsSlider').value = savedSounds;
+            
+            if (savedLightning !== null) document.getElementById('lightningMode').checked = (savedLightning === 'true');
+            if (savedDetail !== null) document.getElementById('detailFixing').checked = (savedDetail === 'true');
+            updateSlider(document.getElementById('ambienceSlider'), 'ambienceValue');
+            updateSlider(document.getElementById('soundsSlider'), 'soundsValue');
         }
     </script>
 </body>

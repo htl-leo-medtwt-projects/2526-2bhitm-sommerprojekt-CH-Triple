@@ -15,49 +15,49 @@ const game = new Phaser.Game(config);
 
 function preload() {
     this.load.image('bedroom', 'assets/sprites/bedroom.jpg');
-    this.load.image('hallway', 'assets/sprites/hallway.jpg'); 
+    this.load.image('hallway-bed', 'assets/sprites/hallway-b.png'); 
     this.load.image('child_s1', 'assets/sprites/crying_child_s1.png');
     this.load.image('child_s2', 'assets/sprites/crying_child_s2.png');
     this.load.image('child_s0', 'assets/sprites/crying_child_s0.png');
 }
-å
+
 function create(data) {
     let lvl = data.level || 1;
     this.isTransitioning = false;
-
-    if (lvl === 1) {
-        this.add.image(400, 300, 'bedroom');
-    } else if (lvl === 2) {
-        this.add.image(400, 300, 'hallway');
-    }
 
     this.walls = this.physics.add.staticGroup();
     this.door = this.physics.add.staticGroup();
 
     if (lvl === 1) {
-        this.walls.add(this.add.rectangle(161, 130, 260, 5, 0xffff00).setVisible(false));
-        this.walls.add(this.add.rectangle(633, 130, 260, 5, 0xffff00).setVisible(false));
-        this.walls.add(this.add.rectangle(45, 300, 5, 300, 0xffff00).setVisible(false));
-        this.walls.add(this.add.rectangle(745, 300, 5, 300, 0xffff00).setVisible(false));
-        this.walls.add(this.add.rectangle(360, 480, 960, 5, 0xffff00).setVisible(false));
-        this.walls.add(this.add.rectangle(660, 230, 125, 225, 0xffff00).setVisible(false));
-        this.walls.add(this.add.rectangle(112, 230, 100, 75, 0xffff00).setVisible(false));
+        this.add.image(500, 300, 'bedroom');
 
-        this.door.add(this.add.rectangle(400, 125, 225, 15, 0xffffff));
-        let mainDoor = this.add.rectangle(400, 10, 225, 15, 0xffff00);
+        this.walls.add(this.add.rectangle(261, 130, 260, 5, 0xffff00).setVisible(false));
+        this.walls.add(this.add.rectangle(733, 130, 260, 5, 0xffff00).setVisible(false));
+        this.walls.add(this.add.rectangle(145, 300, 5, 300, 0xffff00).setVisible(false));
+        this.walls.add(this.add.rectangle(845, 300, 5, 300, 0xffff00).setVisible(false));
+        this.walls.add(this.add.rectangle(460, 480, 960, 5, 0xffff00).setVisible(false));
+        this.walls.add(this.add.rectangle(760, 230, 125, 225, 0xffff00).setVisible(false));
+        this.walls.add(this.add.rectangle(212, 230, 100, 75, 0xffff00).setVisible(false));
+
+        let mainDoor = this.add.rectangle(500, 20, 225, 40, 0xffffff).setVisible(false);
         this.physics.add.existing(mainDoor, true);
         mainDoor.name = "bedroom_out";
         this.door.add(mainDoor);
 
-        this.player = this.physics.add.sprite(400, 300, 'child_s1');
+        this.player = this.physics.add.sprite(500, 300, 'child_s1');
         
     } else if (lvl === 2) {
-        this.player = this.physics.add.sprite(400, 500, 'child_s1');
-        
-        let backDoor = this.add.rectangle(400, 550, 225, 15, 0xffff00);
+        this.add.image(500, 300, 'hallway-bed').setScale(0.75);
+        this.walls.add(this.add.rectangle(500, 200, 750, 5, 0xffff00).setVisible(false));
+        this.walls.add(this.add.rectangle(80, 280, 5, 150, 0xffff00).setVisible(false));
+        this.walls.add(this.add.rectangle(940, 280, 5, 150, 0xffff00).setVisible(false));
+
+        let backDoor = this.add.rectangle(500, 600, 225, 20, 0xffffff).setVisible(true);
         this.physics.add.existing(backDoor, true);
         backDoor.name = "hallway_back";
         this.door.add(backDoor);
+
+        this.player = this.physics.add.sprite(500, 450, 'child_s1');
     }
 
     this.player.setScale(0.25);
@@ -91,6 +91,7 @@ function create(data) {
             repeat: -1
         });
     }
+    
     this.player.play('idle');
 
     this.cursors = this.input.keyboard.createCursorKeys();
@@ -101,9 +102,19 @@ function create(data) {
         right: Phaser.Input.Keyboard.KeyCodes.D
     });
 
-    this.cameras.main.startFollow(this.player);
+
+
+
+
+    // CAM SETUP
     this.cameras.main.setZoom(1.5);
-    this.cameras.main.setBounds(0, 0, 800, 600);
+    this.cameras.main.setBounds(0, 0, 1000, 600);
+    if (lvl === 2) {
+        this.cameras.main.startFollow(this.player);
+    } else {
+
+        this.cameras.main.centerOn(500, 300);
+    }
 }
 
 function update() {

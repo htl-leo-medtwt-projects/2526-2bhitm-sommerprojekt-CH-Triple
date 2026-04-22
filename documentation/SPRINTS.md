@@ -13,3 +13,16 @@
 + Room system
 
 ---
+
+## Sprint 2 - Save+Room/LvL System
+### New
++ Added the save system for the options menu
++ Added a working LvL System for the actual gameplay (room system)
++ Fixed Room loading bug
+
+### For the next Sprint
++ More LvLs/rooms
++ More/Better Hitbox placement
++ Bug Fixes
+
+---
